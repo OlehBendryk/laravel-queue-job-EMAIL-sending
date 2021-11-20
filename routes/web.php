@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CustomersController;
+use App\Http\Controllers\Admin\GroupsController;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,10 +17,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('admin.index');
 });
 
 Route::resource('customer', CustomersController::class);
+Route::resource('group', GroupsController::class);
 
 Route::get('/admin/login', [LoginController::class, 'index'])->name('login');
 Route::post('/admin/login', [LoginController::class, 'login']);
+

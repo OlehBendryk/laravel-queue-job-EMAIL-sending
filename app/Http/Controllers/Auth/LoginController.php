@@ -3,16 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Middleware\TrimStrings;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Psy\Exception\ThrowUpException;
 
 class LoginController extends Controller
 {
-
     public function index()
     {
         return view('auth.login');
@@ -25,7 +21,8 @@ class LoginController extends Controller
         if ($this->attemptLogin($request)){
             return view('admin.index');
         } else {
-            dd('Such user not found. Check your email or password!');
+            return redirect()->route('login')
+                ->with('error', 'Such user not found. Check your email or password!');
         }
     }
 
