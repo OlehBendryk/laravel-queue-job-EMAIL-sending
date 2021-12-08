@@ -37,7 +37,7 @@
 
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="">
-        <i class="fas fa-users-cog"> SMS-Marketing</i>
+        <i class="fas fa-users-cog"> Email-Marketing</i>
         <p class="fs-6 text-muted">Dashboard
         </p>
     </a>
@@ -68,6 +68,13 @@
                         <a class="nav-link" href="{{ route('group.index') }}">
                             <i class="fas fa-user-shield"></i>
                             Groups
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('mail.index') }}">
+                            <i class="fas fa-user-shield"></i>
+                            Mail Templates
                         </a>
                     </li>
 

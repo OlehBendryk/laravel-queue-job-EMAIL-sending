@@ -17,39 +17,45 @@
             <div class="col-12">
                 <table class="table">
                     <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>first name</th>
-                        <th>last name</th>
-                        <th>phone</th>
-                        <th>date of birth</th>
-                        <th>sex</th>
-                    </tr>
+                        <tr class="table-success">
+                            <th>#</th>
+                            <th>first name</th>
+                            <th>last name</th>
+                            <th>email</th>
+                            <th>phone</th>
+                            <th>date of birth</th>
+                            <th>sex</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    @foreach($customers as $customer)
-                        <tr>
-                            <td>{{ $customer->id }}</td>
-                            <td>
-                                <a href="{{ route('customer.show', $customer) }}">
-                                    {{ $customer->first_name }}
-                                </a>
-                            </td>
-                            <td>
-                                <a href="{{ route('customer.show', $customer) }}">
-                                    {{ $customer->last_name }}
-                                </a>
-                            </td>
-                            <td>{{ $customer->phone }}</td>
-                            <td>{{ $customer->date_of_birth }}</td>
-                            <td>{{ $customer->sex }}</td>
-                        </tr>
-                    @endforeach
-
+                        @foreach($customers as $customer)
+                            <tr>
+                                <td>{{ $customer->id }}</td>
+                                <td>
+                                    <a href="{{ route('customer.show', $customer) }}">
+                                        {{ $customer->first_name }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{ route('customer.show', $customer) }}">
+                                        {{ $customer->last_name }}
+                                    </a>
+                                </td>
+                                <td>{{ $customer->email }}</td>
+                                <td>{{ $customer->phone }}</td>
+                                <td>{{ $customer->date_of_birth }}</td>
+                                <td>{{ $customer->sex }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
+                {{--Pagination--}}
+        @if($customers->total() > $customers->count())
+            <div class="d-flex justify-content-center">
+                {{ $customers->links() }}
+            </div>
+        @endif
     </div>
-
 @endsection

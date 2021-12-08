@@ -29,10 +29,10 @@
                     <div class="row mt-2">
                         <table class="table">
                             <span class="table-title">
-                                <h6>Customers</h6>
+                                <h6> Customers of the {{$group->name}} group </h6>
                             </span>
                             <thead>
-                                <tr class="table-primary">
+                                <tr class="table-success">
                                     <th>ID</th>
                                     <th>FName</th>
                                     <th>LName</th>

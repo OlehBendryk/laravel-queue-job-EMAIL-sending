@@ -28,6 +28,13 @@
                             <strong> {{ $errors->first('last_name') }}</strong>
                         @endif
 
+                    {{ Form::label('email', 'Email', ['class' => 'col-4 text-md-right']) }}
+                    {{ Form::text('email', null, ['class' => "form-control col-8" .  ($errors->has('email') ? 'is-invalid' : '')], 'required') }}
+                    @if($errors->has('email'))
+                        <span class="invalid-feedback" role="alert"></span>
+                        <strong> {{ $errors->first('email') }}</strong>
+                    @endif
+
                     {{ Form::label('phone', 'Phone', ['class' => 'col-4 text-md-right']) }}
                     {{ Form::text('phone', null, ['class' => "form-control col-8" .  ($errors->has('phone') ? 'is-invalid' : '')], 'required') }}
                     @if($errors->has('phone'))

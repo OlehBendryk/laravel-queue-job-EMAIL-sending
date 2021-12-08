@@ -2,14 +2,31 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Customer;
-use App\Models\Group;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Http\Requests\GroupCreateRequest;
+use App\Http\Requests\GroupUpdateRequest;
+use App\Repositories\CustomerRepository;
+use App\Repositories\GroupRepository;
+use App\Services\CustomerService;
+use App\Services\GroupService;
 
-class GroupsController extends Controller
+class GroupsController extends BaseController
 {
+    private $groupService;
+    private $groupRepository;
+    private $customerRepository;
+
+    /**
+     * @param GroupService $groupService
+     * @param CustomerService $customerService
+     */
+    public function __construct(GroupService $groupService, GroupRepository $groupRepository, CustomerRepository $customerRepository)
+    {
+        parent::__construct();
+        $this->groupService = $groupService;
+        $this->groupRepository = $groupRepository;
+        $this->customerRepository = $customerRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +34,7 @@ class GroupsController extends Controller
      */
     public function index()
     {
-        $groups = Group::all();
+        $groups = $this->groupRepository->getAllWithPaginator();
 
         return view('admin.groups.index')
             ->with('groups', $groups);
@@ -30,7 +47,7 @@ class GroupsController extends Controller
      */
     public function create()
     {
-        $customers = Customer::all()->pluck('full_name', 'id');
+        $customers = $this->customerRepository->getFullName();
 
         return view('admin.groups.create')
             ->with('customers', $customers);
@@ -42,16 +59,9 @@ class GroupsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request, Group $group)
+    public function store(GroupCreateRequest $request)
     {
-        $group = DB::transaction(function () use ($group, $request){
-            $group->name = $request->get('name');
-            $group->save();
-
-            $group->customers()->attach($request->get('customers'));
-
-            return $group;
-        });
+        $group = $this->groupService->create($request);
 
         return redirect()->route('group.index')
             ->with('success', "Group {$group->name} has been created");
@@ -63,9 +73,10 @@ class GroupsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function show(Group $group)
+    public function show($id)
     {
-        $customers = $group->customers()->where('group_id', $group->id)->get();;
+        $group = $this->groupRepository->getGroupById($id);
+        $customers = $this->groupRepository->getCustomersForGroupById($id);
 
         return view('admin.groups.show')
             ->with('group', $group)
@@ -78,13 +89,16 @@ class GroupsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function edit(Group $group)
+    public function edit($id)
     {
-        $customers = Customer::all()->pluck('full_name', 'id');
+        $group = $this->groupRepository->getGroupById($id);
+        $customersFullName = $this->customerRepository->getFullName();
+        $customersId = $this->groupRepository->getCustomerIdsForGroup($id);
 
         return view('admin.groups.edit')
             ->with('group', $group)
-            ->with('customers', $customers);
+            ->with('customersId', $customersId)
+            ->with('customersFullName', $customersFullName);
     }
 
     /**
@@ -94,24 +108,12 @@ class GroupsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, Group $group)
+    public function update(GroupUpdateRequest $request, $id)
     {
-        $group = DB::transaction(function () use ($group, $request){
-            $group->name = $request->get('name');
-            $group->save();
+        $group = $this->groupService->update($request, $id);
 
-            $customers = $request->get('customers');
-
-            if($customers === null){
-                return $group;
-            } else{
-                $group->customers()->sync($request->get('customers'));
-            }
-
-            return $group;
-        });
-
-        return redirect()->route('group.index');
+        return redirect()->route('group.show', $group)
+            ->with('success', "Group {$group->name} successfully changed!");
     }
 
     /**
@@ -120,14 +122,9 @@ class GroupsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Group $group)
+    public function destroy($id)
     {
-        if ($group){
-            $customers = $group->customers()->where('group_id', $group->id)->get();;
-            $group->customers()->detach($customers);
-
-            $group->delete();
-        }
+        $group = $this->groupService->delete($id);
 
         return redirect()->route('group.index')
             ->with('success', "Group {$group->name} successfully deleted");

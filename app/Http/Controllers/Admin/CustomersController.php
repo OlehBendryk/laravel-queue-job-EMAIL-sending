@@ -2,13 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\CustomerRequest;
-use App\Models\Customer;
-use Illuminate\Http\Request;
+use App\Http\Requests\CustomerCreateRequest;
+use App\Http\Requests\CustomerUpdateRequest;
+use App\Repositories\CustomerRepository;
+use App\Services\CustomerService;
 
-class CustomersController extends Controller
+class CustomersController extends BaseController
 {
+    private $customerRepository;
+    private $customerService;
+
+    public function __construct(CustomerRepository $customerRepository, CustomerService $customerService)
+    {
+        parent::__construct();
+        $this->customerRepository = $customerRepository;
+        $this->customerService = $customerService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +26,7 @@ class CustomersController extends Controller
      */
     public function index()
     {
-        $customers = Customer::all();
+        $customers = $this->customerRepository->getAllWithPaginator();
 
         return view('admin.customers.index')
             ->with('customers', $customers);
@@ -29,9 +39,7 @@ class CustomersController extends Controller
      */
     public function create()
     {
-        $gender = Customer::all();
-
-        return view('admin.customers.create')->with('gender', $gender);
+        return view('admin.customers.create');
     }
 
     /**
@@ -40,18 +48,12 @@ class CustomersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request, Customer $customer)
+    public function store(CustomerCreateRequest $request)
     {
-        $customer->first_name = $request->get('first_name');
-        $customer->last_name = $request->get('last_name');
-        $customer->phone = $request->get('phone');
-        $customer->date_of_birth = $request->get('date_of_birth');
-        $customer->sex = $request->get('sex');
-
-        $customer->save();
+        $customer = $this->customerService->create($request);
 
         return redirect()->route('customer.index')
-            ->with('success', "Customer {$customer->first_name} has been created");
+            ->with('success', "Customer {$customer['first_name']} {$customer['last_name']} has been created");
     }
 
     /**
@@ -60,8 +62,10 @@ class CustomersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function show(Customer $customer)
+    public function show($id)
     {
+        $customer = $this->customerRepository->getById($id);
+
         return view('admin.customers.show')
             ->with('customer', $customer);
     }
@@ -72,8 +76,10 @@ class CustomersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function edit(Customer $customer)
+    public function edit($id)
     {
+        $customer = $this->customerRepository->getById($id);
+
         return view('admin.customers.edit')
             ->with('customer', $customer);
     }
@@ -85,17 +91,12 @@ class CustomersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(CustomerRequest $request, Customer $customer)
+    public function update(CustomerUpdateRequest $request, $id)
     {
-        $customer->update([
-            'first_name' => $request->get('first_name'),
-            'last_name' => $request->get('last_name'),
-            'phone' => $request->get('phone'),
-            'date_of_birth' => $request->get('date_of_birth'),
-            'sex' => $request->get('sex'),
-            ]);
+        $customer = $this->customerService->update($request, $id);
 
-        return redirect()->route('customer.show', $customer);
+        return redirect()->route('customer.show', $customer)
+            ->with('success', "{$customer->first_name} {$customer->last_name} customer data updated");
     }
 
     /**
@@ -104,10 +105,11 @@ class CustomersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Customer $customer)
+    public function destroy($id)
     {
-        $customer->delete();
+        $customer = $this->customerService->delete($id);
 
-        return redirect()->route('customer.index');
+        return redirect()->route('customer.index')
+            ->with('success', "{$customer->first_name} {$customer->last_name} customer deleted");
     }
 }

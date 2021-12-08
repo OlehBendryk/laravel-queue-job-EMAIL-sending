@@ -36,19 +36,26 @@ class Customer extends Model
     use HasFactory;
 
     protected $fillable =[
-      'first_name',
-      'last_name',
-      'phone',
-      'date_of_birth',
-      'sex',
+        'first_name',
+        'last_name',
+        'email',
+        'phone',
+        'date_of_birth',
+        'sex',
     ];
 
+    /**
+     * @return BelongsToMany
+     */
     public function groups():BelongsToMany
     {
         return $this->belongsToMany(Group::class, 'customers_groups');
     }
 
-    public function getFullNameAttribute()
+    /**
+     * @return string
+     */
+    public function getFullNameAttribute(): string
     {
         return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
     }
