@@ -14,6 +14,7 @@
                         <div> ID - {{$customer->id}}</div>
                         <div> FName - {{$customer->first_name}}</div>
                         <div> LName - {{$customer->last_name}}</div>
+                        <div> Email - {{$customer->email}}</div>
                         <div> Phone - {{$customer->phone}}</div>
                         <div> Birth - {{$customer->date_of_birth}}</div>
                         <div> Sex - {{$customer->sex}}</div>

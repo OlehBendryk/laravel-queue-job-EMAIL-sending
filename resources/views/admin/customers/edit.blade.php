@@ -26,6 +26,13 @@
                         <strong> {{ $errors->first('last_name') }}</strong>
                     @endif
 
+                    {{ Form::label('email', 'Email', ['class' => 'col-4 text-md-right']) }}
+                    {{ Form::text('email', $customer->email, ['class' => "form-control col-8" .  ($errors->has('email') ? 'is-invalid' : '')], 'required') }}
+                    @if($errors->has('email'))
+                        <span class="invalid-feedback" role="alert"></span>
+                        <strong> {{ $errors->first('email') }}</strong>
+                    @endif
+
                     {{ Form::label('phone', 'Phone', ['class' => 'col-4 text-md-right']) }}
                     {{ Form::text('phone', $customer->phone, ['class' => "form-control col-8" .  ($errors->has('phone') ? 'is-invalid' : '')], 'required') }}
                     @if($errors->has('phone'))
@@ -50,7 +57,7 @@
                 </div>
 
                 <div class="form-group mt-3 ">
-                    {{ Form::submit('Add customer', ['class' => 'btn btn-primary']) }}
+                    {{ Form::submit('Edit', ['class' => 'btn btn-primary']) }}
                 </div>
                 {{ Form::close() }}
             </div>

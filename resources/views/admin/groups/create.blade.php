@@ -15,14 +15,21 @@
                 <div class="form-group row">
 
                     {{ Form::label('name', 'Name', ['class' => 'col-4 text-md-right']) }}
-                        {{ Form::text('name',null , ['class' => "form-control col-8" .  ($errors->has('name') ? 'is-invalid' : '')], 'required') }}
-                        @if($errors->has('name'))
-                            <span class="invalid-feedback" role="alert"></span>
-                            <strong> {{ $errors->first('name') }}</strong>
-                        @endif
+                    {{ Form::text('name',null , ['class' => "form-control col-8" .  ($errors->has('name') ? 'is-invalid' : '')], 'required') }}
+                    @if($errors->has('name'))
+                        <span class="invalid-feedback" role="alert"></span>
+                        <strong> {{ $errors->first('name') }}</strong>
+                    @endif
 
-                    {{ Form::label('customers[]', 'Add customers', ['class' => 'col-4 text-md-right']) }}
-                    {{ Form::select('customers[]', $customers, null, ['class' => "form-control col-8" .  ($errors->has('sex') ? 'is-invalid' : ''), 'multiple'], ['required']) }}
+                    <h6 class="card-title mt-2">Select Customers for group</h6>
+
+                    @foreach($customers as $id => $customer)
+                        <div class="col-md-2">
+                            {{ Form::checkbox('customers[]', $id ) }}
+                            {{ Form::label('customers', $customer, ['class' => 'text-md-right']) }}
+                        </div>
+                    @endforeach
+
                     @if($errors->has('customers'))
                         <span class="invalid-feedback" role="alert"></span>
                         <strong> {{ $errors->first('customers') }}</strong>

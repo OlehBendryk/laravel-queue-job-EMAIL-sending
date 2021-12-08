@@ -17,7 +17,7 @@
             <div class="col-12">
                 <table class="table">
                     <thead>
-                    <tr>
+                    <tr class="table-success">
                         <th>#</th>
                         <th>name</th>
                     </tr>
@@ -37,6 +37,12 @@
                 </table>
             </div>
         </div>
+        {{--Pagination--}}
+        @if($groups->total() > $groups->count())
+            <div class="d-flex justify-content-center">
+                {{ $groups->links() }}
+            </div>
+        @endif
     </div>
 
 @endsection
