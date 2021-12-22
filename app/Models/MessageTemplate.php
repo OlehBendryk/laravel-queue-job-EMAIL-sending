@@ -12,18 +12,9 @@ class MessageTemplate extends Model
     protected $table = 'msg_templates';
 
     protected $fillable = [
-      'group_id',
       'subject',
       'body'
     ];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function groups()
-    {
-     return $this->belongsTo(Group::class);
-    }
 
 }
 

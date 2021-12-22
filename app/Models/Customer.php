@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -13,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property int $id
  * @property string $first_name
  * @property string $last_name
+ * @property string $email
  * @property string $phone
  * @property string $date_of_birth
  * @property string $sex
@@ -42,6 +42,10 @@ class Customer extends Model
         'phone',
         'date_of_birth',
         'sex',
+    ];
+
+    protected $casts = [
+        'date_of_birth' => 'date',
     ];
 
     /**

@@ -61,7 +61,7 @@ class GroupsController extends BaseController
      */
     public function store(GroupCreateRequest $request)
     {
-        $group = $this->groupService->create($request);
+        $group = $this->groupService->create($request->all());
 
         return redirect()->route('group.index')
             ->with('success', "Group {$group->name} has been created");
@@ -73,7 +73,7 @@ class GroupsController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id)
     {
         $group = $this->groupRepository->getGroupById($id);
         $customers = $this->groupRepository->getCustomersForGroupById($id);
@@ -89,7 +89,7 @@ class GroupsController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         $group = $this->groupRepository->getGroupById($id);
         $customersFullName = $this->customerRepository->getFullName();
@@ -108,9 +108,9 @@ class GroupsController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(GroupUpdateRequest $request, $id)
+    public function update(GroupUpdateRequest $request, int $id)
     {
-        $group = $this->groupService->update($request, $id);
+        $group = $this->groupService->update($request->all(), $id);
 
         return redirect()->route('group.show', $group)
             ->with('success', "Group {$group->name} successfully changed!");
@@ -122,7 +122,7 @@ class GroupsController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $group = $this->groupService->delete($id);
 

@@ -24,10 +24,10 @@ class CustomerCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => ['required', 'string', 'min:3', 'max:64'],
-            'last_name' => ['required', 'string', 'min:3', 'max:64'],
-            'email' => ['required', 'email', 'min:3', 'max:64'],
-            'phone' => ['required', 'string', 'min:3', 'max:64'],
+            'first_name' => ['required', 'string', 'min:3', 'max:36'],
+            'last_name' => ['required', 'string', 'min:3', 'max:36'],
+            'email' => ['required', 'email', 'min:3', 'max:36'],
+            'phone' => ['required', 'string', 'min:3', 'max:12'],
             'date_of_birth' => ['required', 'date'],
             'sex' => ['required', 'string' ]
         ];

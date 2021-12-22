@@ -12,9 +12,13 @@ class EmailSending extends Model
 
     protected $fillable = [
         'group_id',
-        'msg_id',
-        'send_time',
-        'processing',
+        'msg_template',
+        'send_at',
+        'status',
+    ];
+
+    protected $casts = [
+        'send_at' => 'datetime'
     ];
 
     /**
@@ -22,14 +26,14 @@ class EmailSending extends Model
      */
     public function groups():BelongsTo
     {
-        return $this->belongsTo(Group::class);
+        return $this->belongsTo(Group::class, 'group_id', 'id');
     }
 
     /**
      * @return BelongsTo
      */
-    public function msg_templates(): BelongsTo
+    public function msg_templates():BelongsTo
     {
-        return $this->belongsTo(MessageTemplate::class, 'msg_id');
+        return $this->belongsTo(MessageTemplate::class, 'msg_template', 'id');
     }
 }

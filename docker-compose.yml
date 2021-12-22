@@ -8,10 +8,10 @@ services:
       - ./dev/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./public:/project/public:cached
     links:
-      - sms_marketing
+      - email_marketing
     networks:
       - frontend
-  sms_marketing:
+  email_marketing:
     build: ./
     volumes:
       - ./:/project:cached
@@ -24,7 +24,7 @@ services:
       APP_KEY: "base64:05VNDWbv5axaVCzWrtTBLMV1T1Ex8ML4dNzWINrWXHY="
       DB_CONNECTION: mysql
       DB_HOST: mysql
-      DB_DATABASE: sms_marketing_Db
+      DB_DATABASE: email_marketing_Db
       DB_USERNAME: root
       DB_PASSWORD: password
   mysql:
@@ -33,7 +33,7 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_DATABASE: sms_marketing_Db
+      MYSQL_DATABASE: email_marketing_Db
       MYSQL_ROOT_PASSWORD: password
     volumes:
       - ./:/project:ro

@@ -49,10 +49,10 @@ class CustomerRepository extends CoreRepository
     }
 
     /**
-     * @param $id customer id
+     * @param int $id customer id
      * @return mixed
      */
-    public function getGroupForCustomerById($id)
+    public function getGroupForCustomerById(int $id)
     {
         $group = $this->getById($id)->groups()->where('customer_id', $id)->get()->first();
 
@@ -60,10 +60,10 @@ class CustomerRepository extends CoreRepository
     }
 
     /**
-     * @param $id customer id
+     * @param int $id
      * @return mixed
      */
-    public function getById($id)
+    public function getById(int $id)
     {
         $customer = $this->startConditions()
             ->where('id', $id)

@@ -15,12 +15,9 @@ class CreateMsgTemplatesTable extends Migration
     {
         Schema::create('msg_templates', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('group_id');
             $table->string('subject');
             $table->text('body');
             $table->timestamps();
-
-            $table->foreign('group_id')->references('id')->on('groups');
         });
     }
 

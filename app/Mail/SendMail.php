@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class GroupSendMail extends Mailable
+class SendMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -33,6 +33,6 @@ class GroupSendMail extends Mailable
     {
         $sender = config('mail.from.address');
 
-        return $this->from($sender)->subject($this->data['subject'])->view('admin.mail.template');
+        return $this->from($sender)->subject($this->data['subject'])->view('admin.mail_templates.template');
     }
 }

@@ -16,11 +16,11 @@ class CreateCustomersGroupsTable extends Migration
         Schema::create('customers_groups', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('group_id');
-            $table->unsignedInteger('customer_id');
+            $table->unsignedBigInteger('customer_id');
             $table->timestamps();
 
-            $table->foreign('group_id')->references('id')->on('groups');
-            $table->foreign('customer_id')->references('id')->on('customers');
+            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });
     }
 

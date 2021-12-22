@@ -22,7 +22,7 @@ class GroupService
      * @param  array $data GroupCreateRequest
      * @return mixed
      */
-    public function create($data)
+    public function create(array $data)
     {
         $group = DB::transaction(function () use ($data) {
 
@@ -42,7 +42,7 @@ class GroupService
      * @param $id group id
      * @return mixed
      */
-    public function update($data, $id)
+    public function update(array $data, int $id)
     {
         $group = (new GroupRepository())->getGroupById($id);
 
@@ -67,7 +67,7 @@ class GroupService
      * @param $id group id
      * @return \Illuminate\Http\RedirectResponse|mixed
      */
-    public function delete($id)
+    public function delete(int $id)
     {
         $group = (new GroupRepository())->getGroupById($id);
 
