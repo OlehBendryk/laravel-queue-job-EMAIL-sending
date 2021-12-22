@@ -6,26 +6,29 @@ use App\Models\EmailSending;
 
 class EmailSendingService
 {
-    protected $model;
 
     /**
-     * @param $model
+     *
      */
-    public function __construct(EmailSending $model)
+    public function __construct()
     {
         //
     }
 
-
-    public function create($data)
+    /**
+     * @param array $data
+     * @return EmailSending
+     */
+    public function create(array $data): EmailSending
     {
-//        $this->model->create([
-//            'group_id' => $data['group_id'],
-//            'msg_id' => $data['msg_id'],
-//            'send_time' => $data['send_time'],
-//            'processing' => $data['processing'],
-//        ]);
-//
-//        return $this->model;
+        $emailSending = new EmailSending();
+
+        $emailSending->group_id = $data['group_id'];
+        $emailSending->msg_template = $data['msg_template'];
+        $emailSending->send_at = $data['send_at'];
+
+        $emailSending->save();
+
+        return $emailSending;
     }
 }

@@ -24,12 +24,12 @@ class CustomerUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => ['string', 'min:3', 'max:64'],
-            'last_name' => ['string', 'min:3', 'max:64'],
-            'email' => ['email', 'min:3', 'max:64'],
-            'phone' => ['string', 'min:3', 'max:64'],
+            'first_name' => ['string', 'min:3', 'max:36'],
+            'last_name' => ['string', 'min:3', 'max:36'],
+            'email' => ['email', 'min:3', 'max:36'],
+            'phone' => ['string', 'min:3', 'max:12'],
             'date_of_birth' => ['date'],
-            'sex' => ['string']
+            'sex' => ['string' ]
         ];
     }
 }

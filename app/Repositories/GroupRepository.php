@@ -46,10 +46,10 @@ class GroupRepository extends CoreRepository
     }
 
     /**
-     * @param $id group id
+     * @param int $id group id
      * @return mixed
      */
-    public function getGroupById($id)
+    public function getGroupById(int $id)
     {
         $group = $this->startConditions()
             ->where('id', $id)
@@ -60,10 +60,10 @@ class GroupRepository extends CoreRepository
     }
 
     /**
-     * @param $id group id
+     * @param int $id group id
      * @return Collection
      */
-    public function getCustomersForGroupById($id): Collection
+    public function getCustomersForGroupById(int $id): Collection
     {
         $customers = $this->getGroupById($id)->customers()->where('group_id', $id)->get();
 
@@ -71,13 +71,14 @@ class GroupRepository extends CoreRepository
     }
 
     /**
-     * @param $id group id
+     * @param int $id group id
      * @return array
      */
-    public function getCustomerIdsForGroup($id):array
+    public function getCustomerIdsForGroup(int $id):array
     {
         $customers = $this->getCustomersForGroupById($id);
 
+        /** @var array $customerId */
         foreach ($customers as  $customerId){
             $customersId[] = $customerId['id'];
         }

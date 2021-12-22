@@ -24,7 +24,7 @@ class GroupUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['string', 'min:3', 'max:64'],
+            'name' => ['string', 'min:3', 'max:36'],
             'customers' => ['array'],
         ];
     }

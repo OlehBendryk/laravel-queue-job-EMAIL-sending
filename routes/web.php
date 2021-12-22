@@ -2,9 +2,10 @@
 
 use App\Http\Controllers\Admin\CustomersController;
 use App\Http\Controllers\Admin\GroupsController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Mail\MailController;
-use App\Http\Controllers\Mail\MassSendingController;
+use App\Http\Controllers\Mail\EmailMassSendingController;
+use App\Http\Controllers\Mail\EmailTemplateController;
+use App\Http\Controllers\Mail\EmailSendingController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,15 +21,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('admin.index');
-});
+})->middleware('auth');
 
 Route::resource('customer', CustomersController::class);
 Route::resource('group', GroupsController::class);
-Route::resource('mail', MailController::class);
+Route::resource('email', EmailTemplateController::class);
+Route::resource('email_sending', EmailMassSendingController::class);
 
-Route::post('/email/send', [MassSendingController::class, 'sendEmail'])->name('send');
+Route::post('/email/send', [EmailSendingController::class, 'sendEmail'])->name('send');
 
+Auth::routes();
 
-Route::get('/admin/login', [LoginController::class, 'index'])->name('login');
-Route::post('/admin/login', [LoginController::class, 'login']);
+Auth::routes();
 
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

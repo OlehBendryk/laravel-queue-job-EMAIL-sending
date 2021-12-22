@@ -8,60 +8,59 @@ use App\Repositories\GroupRepository;
 
 class CustomerService
 {
-    protected $model;
-
     /**
-     * @param Customer $customer
      */
     public function __construct()
     {
-        $this->model = app(Customer::class);
+        //
     }
 
     /**
      * @param array $data CustomerCreateRequest
      * @return mixed
      */
-    public function create($data)
+    public function create(array $data)
     {
-        $customer = Customer::create([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'email' => $data['email'],
-            'phone' => $data['phone'],
-            'date_of_birth' => $data['date_of_birth'],
-            'sex' => $data['sex']
-        ]);
+        $customer = new Customer();
+
+        $customer->first_name = $data['first_name'];
+        $customer->last_name = $data['last_name'];
+        $customer->email = $data['email'];
+        $customer->phone = $data['phone'];
+        $customer->date_of_birth = $data['date_of_birth'];
+        $customer->sex = $data['sex'];
+
+        $customer->save();
 
         return $customer;
     }
 
     /**
      * @param array $data CustomerUpdateRequest
-     * @param $id customer id
+     * @param int $id customer id
      * @return mixed
      */
-    public function update($data, $id)
+    public function update(array $data, int $id)
     {
         $customer = Customer::findOrFail($id);
 
-        $customer->update([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'email' => $data['email'],
-            'phone' => $data['phone'],
-            'date_of_birth' => $data['date_of_birth'],
-            'sex' => $data['sex']
-        ]);
+        $customer->first_name = $data['first_name'];
+        $customer->last_name = $data['last_name'];
+        $customer->email = $data['email'];
+        $customer->phone = $data['phone'];
+        $customer->date_of_birth = $data['date_of_birth'];
+        $customer->sex = $data['sex'];
+
+        $customer->save();
 
         return $customer;
     }
 
     /**
-     * @param $id customer id
+     * @param int $id
      * @return mixed
      */
-    public function delete($id)
+    public function delete(int $id)
     {
         $customer = Customer::findOrFail($id);
 

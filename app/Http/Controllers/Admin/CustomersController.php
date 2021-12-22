@@ -50,7 +50,7 @@ class CustomersController extends BaseController
      */
     public function store(CustomerCreateRequest $request)
     {
-        $customer = $this->customerService->create($request);
+        $customer = $this->customerService->create($request->all());
 
         return redirect()->route('customer.index')
             ->with('success', "Customer {$customer['first_name']} {$customer['last_name']} has been created");
@@ -62,7 +62,7 @@ class CustomersController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id)
     {
         $customer = $this->customerRepository->getById($id);
 
@@ -76,7 +76,7 @@ class CustomersController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         $customer = $this->customerRepository->getById($id);
 
@@ -91,9 +91,9 @@ class CustomersController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(CustomerUpdateRequest $request, $id)
+    public function update(CustomerUpdateRequest $request, int $id)
     {
-        $customer = $this->customerService->update($request, $id);
+        $customer = $this->customerService->update($request->all(), $id);
 
         return redirect()->route('customer.show', $customer)
             ->with('success', "{$customer->first_name} {$customer->last_name} customer data updated");
@@ -105,7 +105,7 @@ class CustomersController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $customer = $this->customerService->delete($id);
 

@@ -3,10 +3,10 @@
 namespace App\Repositories;
 
 use App\Models\MessageTemplate as Model;
+use Illuminate\Support\Collection;
 
-class MailRepository extends CoreRepository
+class EmailTemplateRepository extends CoreRepository
 {
-
     /**
      * @return string
      */
@@ -16,24 +16,12 @@ class MailRepository extends CoreRepository
     }
 
     /**
-     * @param $id
-     * @return mixed
-     */
-    public function getGroupById($id)
-    {
-        $group = $this->startConditions()->groups()->where('id', $id)->get()->first();
-
-        return $group;
-    }
-
-    /**
      * @return mixed
      */
     public function getAllWithPaginate()
     {
         $columns = [
             'id',
-            'group_id',
             'subject',
             'body'
         ];
@@ -44,6 +32,13 @@ class MailRepository extends CoreRepository
             ->paginate(10);
 
         return $result;
+    }
+
+    public function getAllMessageTemplates(): Collection
+    {
+        $msg_template = $this->startConditions()->all()->pluck('subject', 'id');
+
+        return $msg_template;
     }
 
 }

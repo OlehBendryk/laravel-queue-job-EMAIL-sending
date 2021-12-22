@@ -16,13 +16,13 @@ class CreateEmailSendingsTable extends Migration
         Schema::create('email_sendings', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('group_id');
-            $table->unsignedInteger('msg_id');
-            $table->timestamp('send_time');
-            $table->boolean('processing')->default(true);
+            $table->unsignedInteger('msg_template');
+            $table->dateTime('send_at')->nullable();
+            $table->boolean('status')->default(false);
             $table->timestamps();
 
             $table->foreign('group_id')->references('id')->on('groups');
-            $table->foreign('msg_id')->references('id')->on('msg_templates');
+            $table->foreign('msg_template')->references('id')->on('msg_templates');
         });
     }
 

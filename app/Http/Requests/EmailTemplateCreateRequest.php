@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MailCreateRequest extends FormRequest
+class EmailTemplateCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,6 @@ class MailCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'group_id' => ['required', 'integer', 'exists:groups,id'],
             'subject' => ['required', 'string', 'min:3', 'max:255'],
             'body' => ['required', 'string', 'min:3'],
         ];

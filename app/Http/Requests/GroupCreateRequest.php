@@ -24,7 +24,7 @@ class GroupCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'min:3', 'max:64'],
+            'name' => ['required', 'string', 'min:3', 'max:36'],
             'customers' => ['required', 'array'],
         ];
     }
