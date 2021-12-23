@@ -40,7 +40,7 @@ class EmailMassSendingJob implements ShouldQueue
 
         /** @var $recipient Customer model */
         foreach ($recipients as $recipient) {
-            Mail::to($recipient->email)->send(new SendMail($messageTemplate, $recipient));
+            Mail::to($recipient->email)->queue(new SendMail($messageTemplate, $recipient));
         }
 
         $emailSending->status = true;
